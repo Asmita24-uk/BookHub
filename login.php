@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require 'db.php';
 
@@ -29,51 +28,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
 
         $message = "Invalid email or password.";
-
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>BookHub Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Login</h1>
+<header>
+    <h1>BookHub</h1>
 
-<?php if (!empty($message)): ?>
-    <p style="color:red;">
-        <?php echo $message; ?>
-    </p>
-<?php endif; ?>
+    <nav>
+        <a href="books.php">Home</a>
+        <a href="register.php">Register</a>
+    </nav>
+</header>
 
-<form method="POST">
+<div class="auth-box">
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required>
-    <br><br>
+    <h2>Login</h2>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required>
-    <br><br>
+    <?php if (!empty($message)): ?>
+        <div class="error">
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
 
-    <button type="submit">Login</button>
+    <form method="POST">
 
-</form>
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            required>
 
-<br>
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            required>
 
-<p>
-    Don't have an account?
-    <a href="register.php">Register Here</a>
-</p>
+        <button type="submit">
+            Login
+        </button>
 
-<p>
-    <a href="books.php">View Books</a>
-</p>
+    </form>
+
+    <br>
+
+    <a class="btn" href="register.php">
+        Register Here
+    </a>
+
+    <a class="btn" href="books.php">
+        View Books
+    </a>
+
+</div>
+
+<footer>
+    <p>BookHub Library System</p>
+</footer>
 
 </body>
 </html>
