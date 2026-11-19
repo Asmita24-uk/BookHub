@@ -1,5 +1,4 @@
 <?php
-
 require 'db.php';
 
 $message = "";
@@ -14,57 +13,107 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         PASSWORD_DEFAULT
     );
 
-    $stmt = $pdo->prepare(
-        "INSERT INTO users (username, email, password)
-         VALUES (?, ?, ?)"
+    // Check if email already exists
+    $check = $pdo->prepare(
+        "SELECT id FROM users WHERE email = ?"
     );
 
-    $stmt->execute([
-        $username,
-        $email,
-        $password
-    ]);
+    $check->execute([$email]);
 
-    $message = "Registration successful!";
+    if ($check->fetch()) {
+
+        $message = "Email already registered.";
+
+    } else {
+
+        $stmt = $pdo->prepare(
+            "INSERT INTO users
+            (username, email, password)
+            VALUES (?, ?, ?)"
+        );
+
+        $stmt->execute([
+            $username,
+            $email,
+            $password
+        ]);
+
+        $message = "Registration successful! You can now login.";
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Create Account</h1>
+<header>
+    <h1>BookHub</h1>
 
-<p><?php echo $message; ?></p>
+    <nav>
+        <a href="books.php">Home</a>
+        <a href="login.php">Login</a>
+    </nav>
+</header>
 
-<form method="POST">
+<div class="auth-box">
 
-    <p>
-        Username:<br>
-        <input type="text" name="username" required>
-    </p>
+    <h2>Create Account</h2>
 
-    <p>
-        Email:<br>
-        <input type="email" name="email" required>
-    </p>
+    <?php if (!empty($message)): ?>
 
-    <p>
-        Password:<br>
-        <input type="password" name="password" required>
-    </p>
+        <div class="success">
+            <?php echo htmlspecialchars($message); ?>
+        </div>
 
-    <button type="submit">Register</button>
+    <?php endif; ?>
 
-</form>
+    <form method="POST">
 
-<br>
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            required>
 
-<a href="books.php">Back to Books</a>
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            required>
+
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            required>
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+    <br>
+
+    <a class="btn" href="login.php">
+        Login
+    </a>
+
+    <a class="btn" href="books.php">
+        Back to Books
+    </a>
+
+</div>
+
+<footer>
+    <p>BookHub Library System</p>
+</footer>
 
 </body>
+</html>
 </html>
