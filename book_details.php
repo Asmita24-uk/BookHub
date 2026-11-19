@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require 'db.php';
 
@@ -41,125 +40,158 @@ $countStmt = $pdo->prepare(
 );
 
 $countStmt->execute([$id]);
-
 $totalReviews = $countStmt->fetchColumn();
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title><?php echo htmlspecialchars($book['book_name']); ?></title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1><?php echo htmlspecialchars($book['book_name']); ?></h1>
+<header>
+    <h1><?php echo htmlspecialchars($book['book_name']); ?></h1>
 
-<p>
-    <strong>Welcome:</strong>
-    <?php echo htmlspecialchars($_SESSION['username'] ?? 'Guest'); ?>
-</p>
+   <nav>
 
-<hr>
+    <a href="books.php">Books</a>
 
-<p>
-    <strong>Genre:</strong>
-    <?php echo htmlspecialchars($book['Genre']); ?>
-</p>
+    <?php if(isset($_SESSION['user_id'])): ?>
 
-<p>
-    <strong>Price:</strong>
-    £<?php echo number_format($book['price'], 2); ?>
-</p>
+        <a href="logout.php">Logout</a>
 
-<p>
-    <strong>Total Reviews:</strong>
-    <?php echo $totalReviews; ?>
-</p>
+    <?php else: ?>
 
-<hr>
+        <a href="login.php">Login</a>
 
-<h2>Reviews</h2>
+    <?php endif; ?>
 
-<?php if ($totalReviews > 0): ?>
+</nav>
+</header>
 
-    <?php while ($review = $reviews->fetch(PDO::FETCH_ASSOC)): ?>
+<div class="container">
 
-        <div style="margin-bottom:20px;">
+    <p>
+        <strong>Welcome:</strong>
+        <?php echo htmlspecialchars($_SESSION['username'] ?? 'Guest'); ?>
+    </p>
 
-            <strong>
-                <?php echo htmlspecialchars($review['username']); ?>
-            </strong>
+    <div class="book-card">
 
-            (<?php echo $review['rating']; ?>/5)
+        <p>
+            <strong>Genre:</strong>
+            <?php echo htmlspecialchars($book['Genre']); ?>
+        </p>
 
-            <br>
+        <p>
+            <strong>Price:</strong>
+            £<?php echo number_format($book['price'], 2); ?>
+        </p>
 
-            <?php echo htmlspecialchars($review['review_text']); ?>
+        <p>
+            <strong>Total Reviews:</strong>
+            <?php echo $totalReviews; ?>
+        </p>
 
-            <br>
+    </div>
 
-            <small>
-                <?php echo $review['review_date']; ?>
-            </small>
+    <h2>Reviews</h2>
 
-        </div>
+    <?php if ($totalReviews > 0): ?>
 
-    <?php endwhile; ?>
+        <?php while ($review = $reviews->fetch(PDO::FETCH_ASSOC)): ?>
 
-<?php else: ?>
+            <div class="review">
 
-    <p>No reviews yet.</p>
+                <strong>
+                    <?php echo htmlspecialchars($review['username']); ?>
+                </strong>
+
+                (<?php echo $review['rating']; ?>/5)
+
+                <p>
+                    <?php echo htmlspecialchars($review['review_text']); ?>
+                </p>
+
+                <small>
+                    <?php echo $review['review_date']; ?>
+                </small>
+
+            </div>
+
+        <?php endwhile; ?>
+
+    <?php else: ?>
+
+        <p>No reviews yet.</p>
+
+    <?php endif; ?>
+
+    <?php if(isset($_SESSION['user_id'])): ?>
+
+        <h2>Add Review</h2>
+
+        <form action="add_review.php" method="POST">
+
+            <input
+                type="hidden"
+                name="book_id"
+                value="<?php echo $book['book_id']; ?>">
+
+            <label>Rating</label>
+
+            <select name="rating" required>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+
+            <label>Review</label>
+
+            <textarea
+                name="review"
+                rows="5"
+                required></textarea>
+
+            <button type="submit">
+                Submit Review
+            </button>
+
+        </form>
+
+    <?php else: ?>
+
+        <p>
+            <a class="btn" href="login.php">
+                Login to Add a Review
+            </a>
+        </p>
+
+    <?php endif; ?>
+
+    <br>
+
+    <a class="btn" href="books.php">
+    Back to Books
+</a>
+
+<?php if(isset($_SESSION['user_id'])): ?>
+
+<a class="btn" href="logout.php">
+    Logout
+</a>
 
 <?php endif; ?>
 
-<hr>
+</div>
 
-<h2>Add Review</h2>
-
-<form action="add_review.php" method="POST">
-
-    <input
-        type="hidden"
-        name="book_id"
-        value="<?php echo $book['book_id']; ?>">
-
-    <p>
-        Rating:
-        <select name="rating" required>
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-        </select>
-    </p>
-
-    <p>
-        Review:
-        <br>
-        <textarea
-            name="review"
-            rows="5"
-            cols="50"
-            required></textarea>
-    </p>
-
-    <button type="submit">
-        Submit Review
-    </button>
-
-</form>
-
-<hr>
-
-<p>
-    <a href="books.php">← Back to Books</a>
-</p>
-
-<p>
-    <a href="logout.php">Logout</a>
-</p>
+<footer>
+    <p>BookHub Library System</p>
+</footer>
 
 </body>
 </html>
