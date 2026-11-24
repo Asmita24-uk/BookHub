@@ -47,7 +47,7 @@ $totalReviews = $countStmt->fetchColumn();
 <html>
 <head>
     <title><?php echo htmlspecialchars($book['book_name']); ?></title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=500">
 </head>
 <body>
 
@@ -103,7 +103,7 @@ $totalReviews = $countStmt->fetchColumn();
 
         <?php while ($review = $reviews->fetch(PDO::FETCH_ASSOC)): ?>
 
-            <div class="review">
+            <div class="review" style="max-width:450px;padding:10px;">
 
                 <strong>
                     <?php echo htmlspecialchars($review['username']); ?>
@@ -133,35 +133,36 @@ $totalReviews = $countStmt->fetchColumn();
 
         <h2>Add Review</h2>
 
-        <form action="add_review.php" method="POST">
+<form action="add_review.php" method="POST" class="review-form">
 
-            <input
-                type="hidden"
-                name="book_id"
-                value="<?php echo $book['book_id']; ?>">
+    <input
+        type="hidden"
+        name="book_id"
+        value="<?php echo $book['book_id']; ?>">
 
-            <label>Rating</label>
+    <label for="rating">Rating</label>
 
-            <select name="rating" required>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-            </select>
+    <select id="rating" name="rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+    </select>
 
-            <label>Review</label>
+    <label for="review">Review</label>
 
-            <textarea
-                name="review"
-                rows="5"
-                required></textarea>
+    <textarea
+        id="review"
+        name="review"
+        rows="3"
+        required></textarea>
 
-            <button type="submit">
-                Submit Review
-            </button>
+    <button type="submit">
+        Submit Review
+    </button>
 
-        </form>
+</form>
 
     <?php else: ?>
 
