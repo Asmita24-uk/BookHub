@@ -52,38 +52,129 @@ nav a:hover {
     margin: 20px auto;
 }
 
-/* Book Information */
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+}
+
+/* Book Details Card */
 .book-card {
     background: white;
     padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.book-card p {
+    margin: 15px 0;
+}
+
+.book-card strong {
+    color: #23364d;
+}
+
+/* Search Box */
+#search {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+.btn,
+button {
+    display: inline-block;
+    background: #2c3e50;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover,
+button:hover {
+    background: #1f2d3a;
+}
+
+/* Forms */
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Review Cards */
+form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+/* Headings */
+h2 {
+    color: #23364d;
+    margin-bottom: 10px;
+}
+
+/* Reviews */
 .review {
     background: white;
-    width: 500px;
-    padding: 12px;
-    margin-bottom: 12px;
-    border-left: 4px solid #3498db;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .review strong {
-    color: #2c3e50;
-}
-
-.review p {
-    margin: 5px 0;
+    color: #23364d;
 }
 
 .review small {
     color: #666;
 }
 
-/* Add Review Form */
-form {
-  
+/* Footer */
+footer {
+    background: #23364d;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+}
