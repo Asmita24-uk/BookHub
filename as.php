@@ -99,15 +99,7 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     </div>
 
-    <br>
-
-    <a class="btn" href="register.php">
-        Register User
-    </a>
-
-    <a class="btn" href="login.php">
-        Login
-    </a>
+   
 
 </div>
 
