@@ -47,12 +47,12 @@ $totalReviews = $countStmt->fetchColumn();
 <html>
 <head>
     <title><?php echo htmlspecialchars($book['book_name']); ?></title>
-    <link rel="stylesheet" href="style.css?v=500">
+    <link rel="stylesheet" href="style.css?v=700">
 </head>
 <body>
 
 <header>
-    <h1><?php echo htmlspecialchars($book['book_name']); ?></h1>
+    <h1>📚 <?php echo htmlspecialchars($book['book_name']); ?></h1>
 
    <nav>
 
@@ -86,18 +86,32 @@ $totalReviews = $countStmt->fetchColumn();
         </p>
 
         <p>
-            <strong>Price:</strong>
-            £<?php echo number_format($book['price'], 2); ?>
-        </p>
+    <strong>Price:</strong>
+    £<?php echo number_format($book['price'], 2); ?>
+</p>
 
-        <p>
-            <strong>Total Reviews:</strong>
-            <?php echo $totalReviews; ?>
-        </p>
+<p>
+    <strong>Author:</strong>
+    <?php echo htmlspecialchars($book['author']); ?>
+</p>
 
+<p>
+    <strong>Description:</strong>
+    <?php echo htmlspecialchars($book['description']); ?>
+</p>
+
+<p>
+    <strong>Date Released:</strong>
+    <?php echo htmlspecialchars($book['Date_of_release']); ?>
+</p>
+
+<p>
+    <strong>Total Reviews:</strong>
+    <?php echo $totalReviews; ?>
+</p>
     </div>
 
-    <h2>Reviews</h2>
+    <h2>⭐ Reviews</h2>
 
     <?php if ($totalReviews > 0): ?>
 
