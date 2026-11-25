@@ -38,15 +38,21 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php echo htmlspecialchars($_SESSION['username'] ?? 'Guest'); ?>
     </h2>
 
-    <h3>Search Books</h3>
+    <?php if (isset($_SESSION['user_id'])): ?>
 
-    <input
-        type="text"
-        id="search"
-        placeholder="Type a book name..."
-        onkeyup="searchBooks()">
+<h3>Search Books</h3>
+
+<input
+    type="text"
+    id="search"
+    placeholder="Type a book name..."
+    onkeyup="searchBooks()">
+
+<?php endif; ?>
 
     <br><br>
+
+    <?php if (isset($_SESSION['user_id'])): ?>
 
     <div id="results">
 
@@ -64,12 +70,9 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
 
                 <?php foreach ($books as $book): ?>
-
                 <tr>
 
-                    <td>
-                        <?php echo $book['book_id']; ?>
-                    </td>
+                    <td><?php echo $book['book_id']; ?></td>
 
                     <td>
                         <?php echo htmlspecialchars($book['book_name']); ?>
@@ -91,7 +94,6 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </td>
 
                 </tr>
-
                 <?php endforeach; ?>
 
             </tbody>
@@ -99,7 +101,24 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     </div>
 
-   
+<?php else: ?>
+
+    <div class="book-card">
+        <h3>Please Login</h3>
+        <p>You must log in to view the book catalogue.</p>
+
+        <a class="btn" href="login.php">
+            Login
+        </a>
+
+        <a class="btn" href="register.php">
+            Register
+        </a>
+    </div>
+
+<?php endif; ?>
+
+    
 
 </div>
 
