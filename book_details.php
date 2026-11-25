@@ -2,6 +2,11 @@
 session_start();
 require 'db.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
@@ -47,35 +52,25 @@ $totalReviews = $countStmt->fetchColumn();
 <html>
 <head>
     <title><?php echo htmlspecialchars($book['book_name']); ?></title>
-    <link rel="stylesheet" href="style.css?v=700">
+    <link rel="stylesheet" href="style.css?v=800">
 </head>
+
 <body>
 
 <header>
     <h1>📚 <?php echo htmlspecialchars($book['book_name']); ?></h1>
 
-   <nav>
-
-    <a href="books.php">Books</a>
-
-    <?php if(isset($_SESSION['user_id'])): ?>
-
+    <nav>
+        <a href="books.php">Books</a>
         <a href="logout.php">Logout</a>
-
-    <?php else: ?>
-
-        <a href="login.php">Login</a>
-
-    <?php endif; ?>
-
-</nav>
+    </nav>
 </header>
 
 <div class="container">
 
     <p>
         <strong>Welcome:</strong>
-        <?php echo htmlspecialchars($_SESSION['username'] ?? 'Guest'); ?>
+        <?php echo htmlspecialchars($_SESSION['username']); ?>
     </p>
 
     <div class="book-card">
@@ -86,127 +81,25 @@ $totalReviews = $countStmt->fetchColumn();
         </p>
 
         <p>
-    <strong>Price:</strong>
-    £<?php echo number_format($book['price'], 2); ?>
-</p>
-
-<p>
-    <strong>Author:</strong>
-    <?php echo htmlspecialchars($book['author']); ?>
-</p>
-
-<p>
-    <strong>Description:</strong>
-    <?php echo htmlspecialchars($book['description']); ?>
-</p>
-
-<p>
-    <strong>Date Released:</strong>
-    <?php echo htmlspecialchars($book['Date_of_release']); ?>
-</p>
-
-<p>
-    <strong>Total Reviews:</strong>
-    <?php echo $totalReviews; ?>
-</p>
-    </div>
-
-    <h2>⭐ Reviews</h2>
-
-    <?php if ($totalReviews > 0): ?>
-
-        <?php while ($review = $reviews->fetch(PDO::FETCH_ASSOC)): ?>
-
-            <div class="review" style="max-width:450px;padding:10px;">
-
-                <strong>
-                    <?php echo htmlspecialchars($review['username']); ?>
-                </strong>
-
-                (<?php echo $review['rating']; ?>/5)
-
-                <p>
-                    <?php echo htmlspecialchars($review['review_text']); ?>
-                </p>
-
-                <small>
-                    <?php echo $review['review_date']; ?>
-                </small>
-
-            </div>
-
-        <?php endwhile; ?>
-
-    <?php else: ?>
-
-        <p>No reviews yet.</p>
-
-    <?php endif; ?>
-
-    <?php if(isset($_SESSION['user_id'])): ?>
-
-        <h2>Add Review</h2>
-
-<form action="add_review.php" method="POST" class="review-form">
-
-    <input
-        type="hidden"
-        name="book_id"
-        value="<?php echo $book['book_id']; ?>">
-
-    <label for="rating">Rating</label>
-
-    <select id="rating" name="rating" required>
-        <option value="1">1 Star</option>
-        <option value="2">2 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="5">5 Stars</option>
-    </select>
-
-    <label for="review">Review</label>
-
-    <textarea
-        id="review"
-        name="review"
-        rows="3"
-        required></textarea>
-
-    <button type="submit">
-        Submit Review
-    </button>
-
-</form>
-
-    <?php else: ?>
-
-        <p>
-            <a class="btn" href="login.php">
-                Login to Add a Review
-            </a>
+            <strong>Price:</strong>
+            £<?php echo number_format($book['price'], 2); ?>
         </p>
 
-    <?php endif; ?>
+        <p>
+            <strong>Author:</strong>
+            <?php echo htmlspecialchars($book['author']); ?>
+        </p>
 
-    <br>
+        <p>
+            <strong>Description:</strong><br>
+            <?php echo htmlspecialchars($book['description']); ?>
+        </p>
 
-    <a class="btn" href="books.php">
-    Back to Books
-</a>
+        <p>
+            <strong>Date Released:</strong>
+            <?php echo htmlspecialchars($book['Date_of_release']); ?>
+        </p>
 
-<?php if(isset($_SESSION['user_id'])): ?>
-
-<a class="btn" href="logout.php">
-    Logout
-</a>
-
-<?php endif; ?>
-
-</div>
-
-<footer>
-    <p>BookHub Library System</p>
-</footer>
-
-</body>
-</html>
+        <p>
+            <strong>Total Reviews:</strong>
+            <?php echo $totalReviews; ?
