@@ -38,63 +38,77 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <h2>Available Books</h2>
 
-    <input
-        type="text"
-        id="search"
-        onkeyup="searchBooks()"
-        placeholder="Search by book name..."
-    >
+    <?php if (isset($_SESSION['user_id'])): ?>
 
-    <br><br>
+        <input
+            type="text"
+            id="search"
+            onkeyup="searchBooks()"
+            placeholder="Search by book name..."
+        >
 
-    <div id="results">
+        <br><br>
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Book Name</th>
-                <th>Genre</th>
-                <th>Price (£)</th>
-                <th>View</th>
-            </tr>
+        <div id="results">
 
-            <?php foreach ($books as $book): ?>
-            <tr>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Book Name</th>
+                    <th>Genre</th>
+                    <th>Price (£)</th>
+                    <th>View</th>
+                </tr>
 
-                <td>
-                    <?php echo $book['book_id']; ?>
-                </td>
+                <?php foreach ($books as $book): ?>
+                <tr>
 
-                <td>
-                    <a href="book_details.php?id=<?php echo $book['book_id']; ?>">
-                        <?php echo htmlspecialchars($book['book_name']); ?>
-                    </a>
-                </td>
+                    <td><?php echo $book['book_id']; ?></td>
 
-                <td>
-                    <?php echo htmlspecialchars($book['Genre']); ?>
-                </td>
+                    <td>
+                        <a href="book_details.php?id=<?php echo $book['book_id']; ?>">
+                            <?php echo htmlspecialchars($book['book_name']); ?>
+                        </a>
+                    </td>
 
-                <td>
-                    £<?php echo number_format($book['price'], 2); ?>
-                </td>
+                    <td>
+                        <?php echo htmlspecialchars($book['Genre']); ?>
+                    </td>
 
-                <td>
-                    <a class="btn" href="book_details.php?id=<?php echo $book['book_id']; ?>">
-                        View Details
-                    </a>
-                </td>
+                    <td>
+                        £<?php echo number_format($book['price'], 2); ?>
+                    </td>
 
-            </tr>
-            <?php endforeach; ?>
+                    <td>
+                        <a class="btn" href="book_details.php?id=<?php echo $book['book_id']; ?>">
+                            View Details
+                        </a>
+                    </td>
 
-        </table>
+                </tr>
+                <?php endforeach; ?>
 
-    </div>
+            </table>
 
-    <br>
+        </div>
 
-    
+    <?php else: ?>
+
+        <div class="book-card">
+
+            <h3>Please Login First</h3>
+
+            <p>
+                You must be logged in to view the book catalogue.
+            </p>
+
+            <a class="btn" href="login.php">
+                Login
+            </a>
+
+        </div>
+
+    <?php endif; ?>
 
 </div>
 
