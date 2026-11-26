@@ -17,7 +17,7 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
 <header>
-    <h1>BookHub</h1>
+    <h1>📚 BookHub</h1>
 
     <nav>
         <a href="books.php">Home</a>
